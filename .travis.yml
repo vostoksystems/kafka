@@ -1,24 +1,42 @@
 services:
   - docker
 
+before_install:
+  - chmod +x gradlew
+
 install: true
-
-env:
-  - VERSION_FILE=build.properties
-
-stages:
-  - name: increment_version
-      if: branch = release
-  - name: release_to_docker
-      if: branch = release
 
 jobs:
   include:
-    - stage: increment_version
+    - stage: Release to docker
       script:
         - if [ "$TRAVIS_BRANCH" == "release" ]; then
-            perl -i -pe '$a=1 if(!$a && s/\b(\d+)(?=\D*$)/$1+1/e);' $VERSION_FILE;
-            git add $VERSION_FILE;
-            git commit -m 'Increment version [ci skip]';
-            git push https://$RUNNER_LOGIN:$RUNNER_PASSWORD@github.com/vostoksystems/kafka.git HEAD:release;
+            ./gradlew build;
+            ./gradlew releaseToDocker -PdockerUsername=$DOCKER_USER -PdockerPassword=$DOCKER_PASSWORD;
           fi
+
+
+#services:
+#  - docker
+#
+#install: true
+#
+#env:
+#  - VERSION_FILE=build.properties
+#
+#stages:
+#  - name: increment_version
+#      if: branch = release
+#  - name: release_to_docker
+#      if: branch = release
+#
+#jobs:
+#  include:
+#    - stage: increment_version
+#      script:
+#        - if [ "$TRAVIS_BRANCH" == "release" ]; then
+#            perl -i -pe '$a=1 if(!$a && s/\b(\d+)(?=\D*$)/$1+1/e);' $VERSION_FILE;
+#            git add $VERSION_FILE;
+#            git commit -m 'Increment version [ci skip]';
+#            git push https://$RUNNER_LOGIN:$RUNNER_PASSWORD@github.com/vostoksystems/kafka.git HEAD:release;
+#          fi
