@@ -19,19 +19,10 @@ install: true
 stages:
   - name: increment_version
       if: branch = release
-  - name: release_to_docker
-      if: branch = release
 
 jobs:
   include:
     - stage: increment_version
       script:
-        - if [ "$TRAVIS_BRANCH" == "release" ]; then
+          - ./gradlew testIntegration
 
-          fi
-
-    - stage: release_to_docker
-       script:
-         - if [ "$TRAVIS_BRANCH" == "release" ]; then
-
-           fi
