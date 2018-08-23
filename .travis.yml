@@ -18,7 +18,7 @@ install: true
 #
 stages:
   - name: increment_version
-      if: branch = release
+    if: branch = release
 
 jobs:
   include:
