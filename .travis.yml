@@ -26,9 +26,9 @@ jobs:
     - stage: release_to_docker
       script:
         - if [ "$TRAVIS_BRANCH" == "release" ]; then
-            export PROJECT_VERSION=$(cat $FILE_WITH_VERSION | grep -oP "(?<=version\s=\s).+" | sed -n "1p");
+            export PROJECT_VERSION=$(cat $VERSION_FILE | grep -oP "(?<=version\s=\s).+" | sed -n "1p");
 
-            docker login -u=$DOCKER_REGISTRY_USERNAME -p=DOCKER_REGISTRY_PASSWORD;
+            docker login -u=$DOCKER_REGISTRY_USERNAME -p=$DOCKER_REGISTRY_PASSWORD;
             docker build . -t vostoksystems/kafka:$PROJECT_VERSION -t vostoksystems/kafka:latest;
             docker push vostoksystems/kafka:$PROJECT_VERSION;
             docker push vostoksystems/kafka:latest;
