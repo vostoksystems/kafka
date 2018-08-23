@@ -22,9 +22,8 @@ if [[ $V_ZK_ENABLED = true ]]; then
     /src/zk-prepare-config.sh
 
     echo '-> Start ZooKeeper server'
-    /src/zk-start.sh
+    nohup /src/zk-start.sh > zk-log.out 2> zk-error.err &
 fi
-
 
 # prepare and start Kafka
 echo '-> Prepare Kafka config files'
