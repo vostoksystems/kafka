@@ -2,7 +2,7 @@
 
 [![Build status](https://travis-ci.org/vostoksystems/kafka.svg?branch=release)](https://travis-ci.org/vostoksystems/kafka)
 
-Kafka server with embedded ZooKeeper
+Docker image for Kafka server with embedded ZooKeeper
 - - - -
 
 ## Kafka server
