@@ -24,7 +24,7 @@ jobs:
           fi
 
     - stage: release_to_docker
-       script:
-         - if [ "$TRAVIS_BRANCH" == "release" ]; then
+      script:
+        - if [ "$TRAVIS_BRANCH" == "release" ]; then
 
-           fi
+          fi
