@@ -27,17 +27,11 @@ jobs:
     - stage: increment_version
       script:
         - if [ "$TRAVIS_BRANCH" == "release" ]; then
-            perl -i -pe '$a=1 if(!$a && s/\b(\d+)(?=\D*$)/$1+1/e);' $VERSION_FILE;
-            git add $VERSION_FILE;
-            git commit -m 'Increment version [ci skip]';
-            git push https://$RUNNER_LOGIN:$RUNNER_PASSWORD@github.com/vostoksystems/kafka.git HEAD:release;
+
           fi
 
     - stage: release_to_docker
        script:
          - if [ "$TRAVIS_BRANCH" == "release" ]; then
-             perl -i -pe '$a=1 if(!$a && s/\b(\d+)(?=\D*$)/$1+1/e);' $VERSION_FILE;
-             git add $VERSION_FILE;
-             git commit -m 'Increment version [ci skip]';
-             git push https://$RUNNER_LOGIN:$RUNNER_PASSWORD@github.com/vostoksystems/kafka.git HEAD:release;
+
            fi
