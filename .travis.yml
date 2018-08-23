@@ -26,6 +26,7 @@ jobs:
     - stage: release_to_docker
       script:
         - if [ "$TRAVIS_BRANCH" == "release" ]; then
+            git checkout release;
             export PROJECT_VERSION=$(cat $VERSION_FILE | grep -oP "(?<=version\s=\s).+" | sed -n "1p");
 
             docker login -u=$DOCKER_REGISTRY_USERNAME -p=$DOCKER_REGISTRY_PASSWORD;
