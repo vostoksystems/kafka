@@ -8,29 +8,37 @@
 CONFIG_FILE_TEMPLATE=/src/config/server-template.properties
 CONFIG_FILE=/src/kafka/config/server.properties
 
-#DEFAULT VALUES
-DEFAULT_ZK_CONNECT=localhost:2181
-DEFAULT_ZK_TIMEOUT=6000
 
+# FUNCTIONS
+function replace() {
+    if [[ $2 = *[!\ ]* ]];
+        then
+            V_VAR=$2
+        else
+            V_VAR=$3
+    fi
+    sed -i "s/\${$1}/$V_VAR/" ${CONFIG_FILE}
+}
 
-# resolve variables
-if [[ ${ZK_CONNECT} = *[!\ ]* ]];
-    then
-        V_ZK_CONNECT=${ZK_CONNECT}
-    else
-        V_ZK_CONNECT=${DEFAULT_ZK_CONNECT}
-fi
-
-if [[ ${ZK_TIMEOUT} = *[!\ ]* ]];
-    then
-        V_ZK_TIMEOUT=${ZK_TIMEOUT}
-    else
-        V_ZK_TIMEOUT=${DEFAULT_ZK_TIMEOUT}
-fi
 
 # replace config file
-echo '--> Replace config file with new variables'
+echo '--> Replace config file'
 yes | cp -rf ${CONFIG_FILE_TEMPLATE} ${CONFIG_FILE}
 
-sed -i "s/\${ZK_CONNECT}/$V_ZK_CONNECT/" ${CONFIG_FILE}
-sed -i "s/\${ZK_TIMEOUT}/$V_ZK_TIMEOUT/" ${CONFIG_FILE}
+
+# placeholder representation | env variable | default value
+replace BROCKER_ID ${BROCKER_ID} 0
+
+replace NUM_NETWORK_THREADS ${NUM_NETWORK_THREADS} 3
+replace NUM_IO_THREADS ${NUM_IO_THREADS} 8
+
+replace SOCKET_SEND_BUFFER_BYTES ${SOCKET_SEND_BUFFER_BYTES} 102400
+replace SOCKET_RECEIVE_BUFFER_BYTES ${SOCKET_RECEIVE_BUFFER_BYTES} 102400
+replace SOCKET_REQUEST_MAX_BYTES ${SOCKET_REQUEST_MAX_BYTES} 104857600
+
+replace NUM_PARTITIONS ${NUM_PARTITIONS} 1
+
+replace NUM_RECOVERY_THREADS_PER_DATA_DIR ${NUM_RECOVERY_THREADS_PER_DATA_DIR} 1
+
+replace ZK_CONNECT ${ZK_CONNECT} localhost:2181
+replace ZK_TIMEOUT ${ZK_TIMEOUT} 6000
