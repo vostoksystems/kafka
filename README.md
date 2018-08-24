@@ -33,9 +33,9 @@ ZooKeeper logs and error logs can be found in files `zk-log.out` and `zk-error.e
 
 ## Useful commands
 ```
-    docker build -t kafka .
+    docker build -t vostoksystems/kafka .
 ```
 
 ```
-    docker run --name kafka -p 9092:9092 -e ZK_ENABLED=true kafka
+    docker run --name kafka -p 9092:9092 -e ZK_ENABLED=true vostoksystems/kafka
 ```
