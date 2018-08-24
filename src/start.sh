@@ -9,15 +9,15 @@
 ##############################################################################
 
 # resolve variables
-if [[ $ZK_ENABLED = *[!\ ]* ]];
+if [[ ${ZK_EMBEDDED} = *[!\ ]* ]];
     then
-        V_ZK_ENABLED=$ZK_ENABLED
+        V_ZK_EMBEDDED=${ZK_EMBEDDED}
     else
-        V_ZK_ENABLED=false
+        V_ZK_EMBEDDED=false
 fi
 
 # prepare and start ZooKeeper
-if [[ $V_ZK_ENABLED = true ]]; then
+if [[ ${V_ZK_EMBEDDED} = true ]]; then
     echo '-> Prepare ZooKeeper config files'
     /src/zk-prepare-config.sh
 
